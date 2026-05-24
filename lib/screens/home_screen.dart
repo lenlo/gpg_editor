@@ -131,11 +131,28 @@ class _HomeScreenState extends State<HomeScreen> {
       MaterialPageRoute(
         builder: (_) => EditorScreen(
           filePath: filePath,
-          initialContent: content,
+          initialContent: _expandTabs(content),
           passphrase: passphrase,
         ),
       ),
     );
+  }
+
+  String _expandTabs(String text) {
+    final buffer = StringBuffer();
+    int col = 0;
+    for (int i = 0; i < text.length; i++) {
+      final ch = text[i];
+      if (ch == '\t') {
+        final spaces = 8 - (col % 8);
+        buffer.write(' ' * spaces);
+        col += spaces;
+      } else {
+        buffer.write(ch);
+        if (ch == '\n') col = 0; else col++;
+      }
+    }
+    return buffer.toString();
   }
 
   @override
