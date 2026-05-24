@@ -12,4 +12,5 @@ $ adb install -r build/app/outputs/flutter-apk/app-release.apk
 
 ## Attributions
 
+Code by Claude.\
 Icon created by <a href="https://www.flaticon.com/free-icons/authentication" title="authentication icons">surang</a>.
