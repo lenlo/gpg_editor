@@ -26,6 +26,9 @@ class _EditorScreenState extends State<EditorScreen> {
   final _passphraseService = PassphraseService();
   bool _isDirty = false;
   bool _isSaving = false;
+  double _fontSize = 14.0;
+  static const double _minFontSize = 10.0;
+  static const double _maxFontSize = 24.0;
 
   @override
   void initState() {
@@ -129,6 +132,20 @@ class _EditorScreenState extends State<EditorScreen> {
             overflow: TextOverflow.ellipsis,
           ),
           actions: [
+            IconButton(
+              icon: const Icon(Icons.text_decrease),
+              tooltip: 'Smaller text',
+              onPressed: _fontSize > _minFontSize
+              ? () => setState(() => _fontSize -= 1.0)
+              : null,
+            ),
+            IconButton(
+              icon: const Icon(Icons.text_increase),
+              tooltip: 'Larger text',
+              onPressed: _fontSize < _maxFontSize
+              ? () => setState(() => _fontSize += 1.0)
+              : null,
+            ),
             if (_isSaving)
               const Padding(
                 padding: EdgeInsets.all(16),
@@ -171,17 +188,19 @@ class _EditorScreenState extends State<EditorScreen> {
             ),
           ],
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(12),
-          child: TextField(
-            controller: _controller,
-            maxLines: null,
-            expands: true,
-            textAlignVertical: TextAlignVertical.top,
-            style: const TextStyle(fontFamily: 'monospace', fontSize: 14),
-            decoration: const InputDecoration(
-              border: InputBorder.none,
-              hintText: 'Start typing…',
+        body: SafeArea(
+          child: Padding(
+            padding: const EdgeInsets.all(12),
+            child: TextField(
+              controller: _controller,
+              maxLines: null,
+              expands: true,
+              textAlignVertical: TextAlignVertical.top,
+              style: TextStyle(fontFamily: 'monospace', fontSize: _fontSize),
+              decoration: const InputDecoration(
+                border: InputBorder.none,
+                hintText: 'Start typing…',
+              ),
             ),
           ),
         ),
